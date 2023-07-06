@@ -5,6 +5,10 @@
 /.pnp
 .pnp.js
 
+/film-finder/node_modules
+
+/.next
+
 # testing
 /coverage
 
