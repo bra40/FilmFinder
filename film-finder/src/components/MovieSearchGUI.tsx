@@ -167,25 +167,29 @@ const MovieSearchGUI = (): JSX.Element => {
   };
 
   return (
-    <div className="grid grid-cols-2 gap-4">
-      <div className="col-span-1">
-        <div className="flex items-center mb-4">
-          <div className="mr-4 flex-grow">
-            <SearchInput value={searchInput} onChange={setSearchInput} />
+    <div className="bg-white500 text-blue600 h-screen p-8">
+      <div className="grid grid-cols-2 gap-8 h-full">
+        <div className="col-span-1 flex flex-col">
+          <div className="flex items-center">
+            <div className="flex-grow">
+              <SearchInput value={searchInput} onChange={setSearchInput} />
+            </div>
+            <div>
+              <ModeDropdown value={mode} onChange={handleModeChange} />
+            </div>
           </div>
-          <div>
-            <ModeDropdown value={mode} onChange={handleModeChange} />
+          <div className="h-full">
+            <AutocompleteResults
+              results={autocompleteResults}
+              onItemClick={handleAutocompleteClick}
+            />
           </div>
         </div>
-        <div>
-          <AutocompleteResults
-            results={autocompleteResults}
-            onItemClick={handleAutocompleteClick}
-          />
+        <div className="col-span-1">
+          <div className="bg-white rounded-md shadow-md ">
+            <OutputTable data={outputTableData} />
+          </div>
         </div>
-      </div>
-      <div className="col-span-1">
-        <OutputTable data={outputTableData} />
       </div>
     </div>
   );

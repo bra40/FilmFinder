@@ -11,11 +11,15 @@ const AutocompleteResults: React.FC<AutocompleteResultsProps> = ({
 }) => {
   return (
     <div className="mt-2 rounded-md shadow-md">
-      <ul className="py-2">
+      <ul>
         {results.map((result, index) => (
           <li
             key={index}
-            className="py-1 px-2 cursor-pointer hover:bg-gray-100 transition duration-200"
+            className={`py-1 px-2 cursor-pointer bg-blue400 text-white500 hover:bg-blue300 hover:text-white600 transition duration-200 ${
+              index === 0 ? "rounded-tl-md rounded-tr-md" : ""
+            } ${
+              index === results.length - 1 ? "rounded-bl-md rounded-br-md" : ""
+            }`}
             onClick={() => onItemClick(result)}
           >
             {result.name}

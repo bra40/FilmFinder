@@ -7,12 +7,12 @@ interface SearchInputProps {
 
 const SearchInput: React.FC<SearchInputProps> = ({ value, onChange }) => {
   return (
-    <div className="p-2 rounded-md shadow-md ">
+    <div className="input-height rounded-md shadow-md ">
       <input
         type="text"
         value={value}
-        placeholder="Search for cast or crew..."
-        className="w-full text-base text-gray-800 placeholder-gray-400 bg-white border border-gray-300 rounded-md p-2"
+        placeholder="search for cast or crew..."
+        className="w-full text-blue500 text-blue600 placeholder-blue300 bg-white border focus:border-blue500 focus:outline-none rounded-md p-2"
         onChange={(event) => onChange(event.target.value)}
       />
     </div>
