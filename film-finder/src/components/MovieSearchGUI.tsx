@@ -4,16 +4,22 @@ import ModeDropdown from "./ModeDropdown";
 import MovieResults from "./MovieResults";
 import { AutocompleteItem } from "./types";
 
+
+
 const MovieSearchGUI = (): JSX.Element => {
-  const [selectedPerson, setSelectedPerson] = useState<AutocompleteItem | null>(
-    null
+  const [selectedPerson, setSelectedPerson] = useState<AutocompleteItem>(
+    {} as AutocompleteItem
   );
+  const [selectedPersonName, setSelectedPersonName] = useState("");
+
 
   const [mode, setMode] = useState("writer");
 
   const handlePersonSelect = (person: AutocompleteItem) => {
     setSelectedPerson(person);
+    setSelectedPersonName(person.name);
   };
+
 
   const handleModeChange = (value: string) => {
     setMode(value);
@@ -25,7 +31,10 @@ const MovieSearchGUI = (): JSX.Element => {
         <div className="col-span-1">
           <div className="flex items-start">
             <div className="flex-grow">
-              <SearchAutocomplete onSelect={handlePersonSelect} />
+              <SearchAutocomplete
+                onSelect={handlePersonSelect}
+                selectedPersonName={selectedPersonName}
+              />
             </div>
             <div>
               <ModeDropdown value={mode} onChange={handleModeChange} />

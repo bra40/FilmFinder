@@ -6,11 +6,12 @@ import { AutocompleteItem } from "./types";
 import { API_KEY } from "./constants";
 
 interface SearchAutocompleteProps {
-  onSelect: (item: AutocompleteItem) => void;
+  onSelect: (person: AutocompleteItem) => void;
+  selectedPersonName: string; // Add this line
 }
-
 const SearchAutocomplete: React.FC<SearchAutocompleteProps> = ({
   onSelect,
+  selectedPersonName,
 }) => {
   const [searchInput, setSearchInput] = useState("");
   const [autocompleteResults, setAutocompleteResults] = useState<
@@ -54,7 +55,12 @@ const SearchAutocomplete: React.FC<SearchAutocompleteProps> = ({
 
   return (
     <div>
-      <SearchInput value={searchInput} onChange={setSearchInput} />
+      <SearchInput
+        value={searchInput}
+        onChange={setSearchInput}
+        selectedName={selectedPersonName}
+      />
+
       <AutocompleteResults
         results={autocompleteResults}
         onItemClick={handleAutocompleteClick}
