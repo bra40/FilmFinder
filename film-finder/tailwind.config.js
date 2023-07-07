@@ -43,6 +43,8 @@ module.exports = {
         white400: "#F7F7F7",
         white500: "#f3f3f3",
 
+        offWhite500: "#d6d8e7",
+
         red600: "#D0B1B4",
         red700: "#AE7A83",
         red800: "#8C4D5D",

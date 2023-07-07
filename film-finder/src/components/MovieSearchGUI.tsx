@@ -4,16 +4,8 @@ import SearchInput from "./SearchInput";
 import AutocompleteResults from "./AutocompleteResults";
 import ModeDropdown from "./ModeDropdown";
 import OutputTable from "./OutputTable";
-
-interface AutocompleteItem {
-  name: string;
-  person_id: number;
-}
-
-interface MovieProvider {
-  movie: string;
-  providers: string[];
-}
+import { AutocompleteItem, MovieProvider } from "./types";
+import { API_KEY, MY_PROVIDERS } from "./constants";
 
 const MovieSearchGUI = (): JSX.Element => {
   const [searchInput, setSearchInput] = useState("");
@@ -23,18 +15,6 @@ const MovieSearchGUI = (): JSX.Element => {
   const [outputTableData, setOutputTableData] = useState<MovieProvider[]>([]);
   const [mode, setMode] = useState<string>("writer");
 
-  const api_key = "6b17a09aed846d2e8d5f46e555aabb7a"; // Replace with your TMDB API key
-  const myProviders: string[] = [
-    "HBO Max",
-    "Max",
-    "Criterion Channel",
-    "Hulu",
-    "Amazon Prime Video",
-    "Netflix",
-    "Apple TV Plus",
-    "Tubi",
-  ]; // Replace with your available film providers
-
   useEffect(() => {
     if (searchInput !== "") {
       searchPeople(searchInput);
@@ -43,19 +23,16 @@ const MovieSearchGUI = (): JSX.Element => {
     }
   }, [searchInput]);
 
-  const searchPeople = useCallback(
-    async (query: string) => {
-      try {
-        const url = `https://api.themoviedb.org/3/search/person?api_key=${api_key}&query=${query}`;
-        const response = await axios.get(url);
-        const data = response.data;
-        displayAutocompleteResults(data.results);
-      } catch (error) {
-        console.error("Error searching people:", error);
-      }
-    },
-    [api_key]
-  );
+  const searchPeople = useCallback(async (query: string) => {
+    try {
+      const url = `https://api.themoviedb.org/3/search/person?api_key=${API_KEY}&query=${query}`;
+      const response = await axios.get(url);
+      const data = response.data;
+      displayAutocompleteResults(data.results);
+    } catch (error) {
+      console.error("Error searching people:", error);
+    }
+  }, []);
 
   const displayAutocompleteResults = (results: any[]) => {
     const items: AutocompleteItem[] = results.slice(0, 10).map((result) => ({
@@ -85,16 +62,16 @@ const MovieSearchGUI = (): JSX.Element => {
   const getMoviesAndProviders = async (person_id: number) => {
     try {
       const response = await axios.get(
-        `https://api.themoviedb.org/3/person/${person_id}/movie_credits?api_key=${api_key}&language=en-US`
+        `https://api.themoviedb.org/3/person/${person_id}/movie_credits?api_key=${API_KEY}&language=en-US`
       );
       const movies = extractMoviesByDepartment(response.data, mode);
       const movieProviders = await Promise.all(
         movies.map(async (movie) => {
-          const movieId = await getMovieId(movie, api_key);
+          const movieId = await getMovieId(movie, API_KEY);
           if (movieId) {
             const providers = await getFilmProviders(movieId);
             const commonProviders = providers.filter((provider: string) =>
-              myProviders.includes(provider)
+              MY_PROVIDERS.includes(provider)
             );
             return {
               movie,
@@ -133,10 +110,10 @@ const MovieSearchGUI = (): JSX.Element => {
     return movies;
   };
 
-  const getMovieId = async (movieTitle: string, api_key: string) => {
+  const getMovieId = async (movieTitle: string, apiKey: string) => {
     try {
       const response = await axios.get(
-        `https://api.themoviedb.org/3/search/movie?api_key=${api_key}&language=en-US&query=${movieTitle}&page=1&include_adult=false`
+        `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=en-US&query=${movieTitle}&page=1&include_adult=false`
       );
       const movieResults = response.data.results;
       if (movieResults.length > 0) {
@@ -152,7 +129,7 @@ const MovieSearchGUI = (): JSX.Element => {
   const getFilmProviders = async (movieId: number) => {
     try {
       const response = await axios.get(
-        `https://api.themoviedb.org/3/movie/${movieId}/watch/providers?api_key=${api_key}`
+        `https://api.themoviedb.org/3/movie/${movieId}/watch/providers?api_key=${API_KEY}`
       );
       const results = response.data.results;
       const providers = results.US?.flatrate || [];
@@ -167,7 +144,7 @@ const MovieSearchGUI = (): JSX.Element => {
   };
 
   return (
-    <div className="bg-white500 text-blue600 h-screen p-8">
+    <div className="bg-offWhite500 text-blue600 min-h-screen p-8">
       <div className="grid grid-cols-2 gap-8 h-full">
         <div className="col-span-1 flex flex-col">
           <div className="flex items-center">
