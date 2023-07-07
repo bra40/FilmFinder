@@ -10,7 +10,7 @@ const ModeDropdown: React.FC<ModeDropdownProps> = ({ value, onChange }) => {
     <div className="h-full rounded-md shadow-md">
       <select
         value={value}
-        className="h-full w-full py-2.5 text-blue500 text-white500 bg-blue300 border border-gray-300 focus:border-blue500 focus:outline-none rounded-md p-2"
+        className="h-full w-full py-2.5 text-blue500 text-white500 bg-blue300 border border-gray-300 focus:border-blue500 focus:outline-none rounded-md p-2 "
         onChange={(event) => onChange(event.target.value)}
       >
         <option value="director">director</option>
